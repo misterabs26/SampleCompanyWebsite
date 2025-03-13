@@ -1,10 +1,20 @@
 import streamlit as st
 import pandas as pd
+from streamlit_card import card
+
 
 st.set_page_config(layout="wide")
 cols = st.columns(3)
 
+with open("assets/style.css","r") as css_file:
+    custom_css = css_file.read()
 
+st.markdown(
+    f"""
+    <style>{custom_css}</style>
+    """,
+    unsafe_allow_html=True
+)
 # header
 header_msg = """Lorem ipsum odor amet, consectetuer adipiscing elit. 
 Rutrum at malesuada at turpis conubia arcu sociosqu porttitor neque. 
@@ -27,3 +37,5 @@ with open("assets/data.csv","r") as data:
 print(df)
 for i, row in df.iterrows():
     st.subheader(f"{row['first name'].capitalize()} {row['last name'].capitalize()}")
+    st.image(f"images/{row['image']}")
+    st.write(row['role'])
