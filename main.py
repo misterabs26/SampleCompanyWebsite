@@ -1,20 +1,19 @@
 import streamlit as st
 import pandas as pd
-from streamlit_card import card
-
 
 st.set_page_config(layout="wide")
-cols = st.columns(3)
+header = st.container()
+members_section = st.container()
 
 with open("assets/style.css","r") as css_file:
     custom_css = css_file.read()
 
-st.markdown(
-    f"""
-    <style>{custom_css}</style>
-    """,
-    unsafe_allow_html=True
-)
+with open("assets/data.csv","r") as data:
+    df = pd.read_csv(data)
+
+
+st.markdown(f"<style>{custom_css}</style>",unsafe_allow_html=True)
+
 # header
 header_msg = """Lorem ipsum odor amet, consectetuer adipiscing elit. 
 Rutrum at malesuada at turpis conubia arcu sociosqu porttitor neque. 
@@ -25,17 +24,27 @@ Natoque venenatis nam sagittis et; ante platea consectetur.
 Odio donec nullam nam proin dis convallis interdum feugiat. 
 Ahabitasse nulla ad at nunc consequat mauris."""
 
-with st.container():
+with header:
     st.header("The Best Company")
     st.write(header_msg)
 
 
-st.subheader("Our Team")
-with open("assets/data.csv","r") as data:
-    df = pd.read_csv(data)
+with members_section:
+    st.subheader("Our Team")
+    cols = st.columns(3)
+    for i, row in df.iterrows():
+        col = cols[i % 3]
+        with col:
+            st.markdown(f"""
+            <h3 style="text-align:center">
+                {row['first name'].capitalize()} {row['last name'].capitalize()}
+            </h3>
+            """, unsafe_allow_html=True)
 
-print(df)
-for i, row in df.iterrows():
-    st.subheader(f"{row['first name'].capitalize()} {row['last name'].capitalize()}")
-    st.image(f"images/{row['image']}")
-    st.write(row['role'])
+            st.image(f"images/{row['image']}",use_container_width=True,)
+
+            st.markdown(f"""
+                <p style="text-align:center">{row['role']}</p>
+            """, unsafe_allow_html=True)
+
+

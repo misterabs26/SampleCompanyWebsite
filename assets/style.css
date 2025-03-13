@@ -1,3 +1,3 @@
-.card {
-    text-align: center !important;
+[data-testid=stImageContainer] {
+    align-items: center;
 }
