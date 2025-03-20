@@ -46,5 +46,5 @@ with members_section:
             st.markdown(f"""
                 <p style="text-align:center">{row['role']}</p>
             """, unsafe_allow_html=True)
-
+            st.divider()
 
