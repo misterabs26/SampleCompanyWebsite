@@ -14,8 +14,8 @@ def send_email(sender,topic_subj, message):
     host = "smtp.gmail.com"
     port = 465
 
-    admin_email = os.getenv("USER_EMAIL")
-    admin_pass = os.getenv("USER_PW")
+    admin_email = os.getenv("EMAIL_USER")
+    admin_pass = os.getenv("EMAIL_PASS")
 
     if validate_email(sender):
         subject = topic_subj
@@ -35,7 +35,7 @@ def send_email(sender,topic_subj, message):
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(host,port,context=context) as server:
             server.login(admin_email,admin_pass)
-            server.sendmail(admin_email,admin_email,message.as_string())
+            server.sendmail(admin_email,admin_email,msg.as_string())
 
             st.info("Your email was sent successfully!")
     else:
