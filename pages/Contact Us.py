@@ -21,5 +21,3 @@ with st.form(key="email_forms"):
             se.send_email(sender_email,topic, message)
         else:
             st.warning("Please fill up the form.")
-
-st.session_state

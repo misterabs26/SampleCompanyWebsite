@@ -1,11 +1,14 @@
 import streamlit as st
-import os
 import ssl, smtplib
-from dotenv import load_dotenv
-import re
 from email.mime.text import MIMEText
+import re
 
-load_dotenv()
+# from dotenv import load_dotenv
+# import os
+
+
+
+# load_dotenv()
 
 def validate_email(email):
     return re.match(r"[^@]+@[^@]+\.[^@]+", email)
@@ -14,8 +17,12 @@ def send_email(sender,topic_subj, message):
     host = "smtp.gmail.com"
     port = 465
 
-    admin_email = os.getenv("EMAIL_USER")
-    admin_pass = os.getenv("EMAIL_PASS")
+    # use the code below only if you are using dotenv instead of streamlit secrets
+    # admin_email = os.getenv("EMAIL_USER")
+    # admin_pass = os.getenv("EMAIL_PASS")
+
+    admin_email = st.secrets["email"]["EMAIL_USER"]
+    admin_pass = st.secrets["email"]["EMAIL_PASS"]
 
     if validate_email(sender):
         subject = topic_subj
@@ -37,6 +44,6 @@ def send_email(sender,topic_subj, message):
             server.login(admin_email,admin_pass)
             server.sendmail(admin_email,admin_email,msg.as_string())
 
-            st.info("Your email was sent successfully!")
+            st.success("Your email was sent successfully!")
     else:
-        st.warning("Invalid Email")
+        st.error("Invalid Email")
